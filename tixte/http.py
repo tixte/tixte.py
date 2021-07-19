@@ -28,9 +28,9 @@ class Route:
     def __init__(self, method: str, path: str, **parameters: Any) -> None:
         self.method: str = method
         self.path: str = path
+        self.parameters = parameters
+        
         url = self.BASE + path
-        if parameters:
-            url += ''.join([f'{k}={v}' for k, v in parameters.items()])
         self.url = url
         
         
@@ -49,7 +49,7 @@ class HTTP:
         
     
     async def request(self, route: Route, **kwargs: Any) -> Dict:
-        async with self.session.request(route.method, route.url, **kwargs) as resp:
+        async with self.session.request(route.method, route.url, {**route.parameters, **kwargs}) as resp:
             if resp.status != 200:
                 raise NotImplementedError("API status was not 200, this hasn't been implemented yet.")
             
