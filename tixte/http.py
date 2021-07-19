@@ -53,7 +53,5 @@ class HTTP:
         async with self.session.request(route.method, route.url, **kwargs) as resp:
             if resp.status != 200:
                 raise NotImplementedError("API status was not 200, this hasn't been implemented yet.")
-            
-            # We're going to assume the API returns Dict for now.
-            # We'll change this later as I get more info.
+
             return await resp.json()  
